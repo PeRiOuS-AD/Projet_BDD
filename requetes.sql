@@ -17,7 +17,7 @@ AND s.id_scientifique NOT IN (SELECT id_scientifique FROM Encadrer);
 
 -- 8. Le nom et le prénom des chercheurs qui n’ont jamais publié, ni encadré.
 SELECT DISTINCT p.nom, p.prenom
-FROM Personnel p, Scientifique s
+FROM Personnel AS p, Scientifique AS s
 WHERE p.id_personnel = s.id_scientifique
 AND s.id_scientifique NOT IN (SELECT id_personnel FROM ParticipationPersonelPubli)
 AND s.id_scientifique NOT IN (SELECT id_scientifique FROM Encadrer);
