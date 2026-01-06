@@ -78,6 +78,14 @@ WHERE s.id_scientifique NOT IN (
 );
 
 -- 10. L’identifiant, nom et prénom des doctorants qui ont un seul encadrant.
+SELECT d.id_doc, p.nom, p.prenom
+FROM doctorant AS d
+INNER JOIN personnel AS p ON d.id_doc = p.id_personnel
+WHERE 1 = (
+	SELECT COUNT(*)
+	FROM Encadrer AS e
+	WHERE d.id_doc = e.id_doc
+);
 -- 11. Les chercheurs qui ont plus de 4 doctorants en cours. Pour chaque chercheur, on veut afficher
 -- son identifiant, son nom, son prenom, et son nombre de doctorants.
 -- 12. L’identifiant des chercheurs qui n’ont publié que dans des conférences de classe A.
