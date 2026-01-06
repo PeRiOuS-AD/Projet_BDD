@@ -1,9 +1,51 @@
 -- --1. Le nom et le grade des encadrants du doctorant dont l’identifiant est "d001".
+SELECT nom, grade 
+FROM scientifique 
+JOIN personnel ON id_personnel = id_scientifique 
+WHERE id_scientifique IN 
+	(SELECT id_scientifique 
+	FROM encadrer 
+	WHERE id_doc = '3');
 -- --2. Le nom et le pays des auteurs collaborateurs (auteurs externes) du chercheur "Jean Azi" de 2016 à 2020.
+SELECT id_a_externe, auteur_externe.nom, prenom, pays 
+FROM auteur_externe 
+JOIN lab_externe ON lab_externe.id_l_externe = auteur_externe.id_l_externe 
+WHERE id_a_externe IN 
+(SELECT id_a_externe 
+FROM participationaepubli 
+WHERE id_publication IN 
+(SELECT id_publication 
+FROM participationpersonelpubli 
+WHERE id_publication IN 
+(SELECT id_personnel FROM personnel WHERE nom = 'Moreau') 
+AND 
+id_publication IN 
+(SELECT id_publication 
+FROM publication 
+WHERE publication.annee BETWEEN 2016 and 2021)));
 -- --3. Le nombre de collaborateurs total du chercheur d’identifiant "S001".
--- --4. Le nombre de pays avec lesquels le LAAS a collaboré dans le cadre de publications de rang A (i.e. le nombre d’articles publiés dans des conférences de classe A).
--- --5. Pour les doctorants, on souhaiterait récupérer le nombre de leurs publications. On veut retourner l’identifiant de chaque doctorant accompagné du nombre de ses publications.
+SELECT COUNT(*) FROM auteur_externe
+WHERE id_a_externe IN
+(SELECT id_a_externe FROM participationaepubli
+WHERE id_publication IN
+(SELECT id_publication FROM participationpersonelpubli
+WHERE id_personnel = '4' and
+id_personnel IN (SELECT id_chercheur FROM chercheur)));
 
+-- --4. Le nombre de pays avec lesquels le LAAS a collaboré dans le cadre de publications de rang A (i.e. le nombre d’articles publiés dans des conférences de classe A).
+SELECT COUNT(DISTINCT(pays)) FROM lab_externe WHERE id_l_externe IN 
+	(SELECT id_l_externe FROM auteur_externe WHERE id_a_externe IN 
+		(SELECT id_a_externe FROM ParticipationAEPubli WHERE id_publication IN 
+			(SELECT id_publication FROM publication WHERE classe = 'A') 
+			and id_publication IN 
+			(SELECT id_publication FROM participationpersonelpubli WHERE id_personnel IN
+				(SELECT id_chercheur FROM chercheur))));
+
+-- --5. Pour les doctorants, on souhaiterait récupérer le nombre de leurs publications. On veut retourner l’identifiant de chaque doctorant accompagné du nombre de ses publications.
+SELECT id_personnel, count(id_personnel) FROM participationpersonelpubli
+GROUP by id_personnel
+HAVING id_personnel IN
+(SELECT id_doc FROM doctorant);
 -- --6. Le nombre de doctorants du laboratoire ayant soutenu
 SELECT COUNT(*) AS nb_doc_ayant_soutenu
 FROM Doctorant
