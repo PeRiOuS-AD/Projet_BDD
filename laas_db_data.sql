@@ -13,7 +13,7 @@ BEGIN;
 -- ============================================================================
 
 -- Insertion dans Personnel
-INSERT INTO Personnel (nom, prenom, date_de_naissance, adresse, date_recrutement) VALUES
+INSERT INTO personnel (nom, prenom, date_de_naissance, adresse, date_recrutement) VALUES
 ('Dupont', 'Marie', '1985-03-15', '12 Rue de la République, 31000 Toulouse', '2010-09-01'),
 ('Martin', 'Jean', '1978-07-22', '45 Avenue Jean Jaurès, 31400 Toulouse', '2005-01-15'),
 ('Dubois', 'Sophie', '1990-11-30', '8 Boulevard Carnot, 31000 Toulouse', '2015-09-01'),
@@ -31,14 +31,14 @@ INSERT INTO Personnel (nom, prenom, date_de_naissance, adresse, date_recrutement
 ('Garnier', 'Nathalie', '1987-05-22', '12 Rue Lafayette, 31000 Toulouse', '2013-09-01');
 
 -- Insertion dans Etablissement
-INSERT INTO Etablissement (nom, acronyme, adresse) VALUES
+INSERT INTO etablissement (nom, acronyme, adresse) VALUES
 ('Institut National des Sciences Appliquées', 'INSA', '135 Avenue de Rangueil, 31077 Toulouse'),
 ('Université Paul Sabatier', 'UPS', '118 Route de Narbonne, 31062 Toulouse'),
 ('École Nationale Supérieure d''Électronique', 'ENSEEIHT', '2 Rue Charles Camichel, 31071 Toulouse'),
 ('Institut Supérieur de l''Aéronautique et de l''Espace', 'ISAE-SUPAERO', '10 Avenue Édouard Belin, 31055 Toulouse');
 
 -- Insertion dans Evenement
-INSERT INTO Evenement (date_debut, date_fin) VALUES
+INSERT INTO evenement (date_debut, date_fin) VALUES
 ('2024-03-15', '2024-03-15'),
 ('2024-05-20', '2024-05-24'),
 ('2024-10-10', '2024-10-10'),
@@ -46,18 +46,18 @@ INSERT INTO Evenement (date_debut, date_fin) VALUES
 ('2025-02-12', '2025-02-12');
 
 -- Insertion dans Journee_Portes_Ouvertes
-INSERT INTO Journee_Portes_Ouvertes (id_jpo) VALUES
+INSERT INTO journee_portes_ouvertes (id_jpo) VALUES
 (1),
 (3),
 (5);
 
 -- Insertion dans Congres
-INSERT INTO Congres (id_congres, nb_inscris, classe) VALUES
+INSERT INTO congres (id_congres, nb_inscris, classe) VALUES
 (2, 250, 'A'),
 (4, 180, 'B');
 
 -- Insertion dans Scientifique
-INSERT INTO Scientifique (id_scientifique, grade) VALUES
+INSERT INTO scientifique (id_scientifique, grade) VALUES
 (1, 'Maître de Conférences'),
 (2, 'Professeur'),
 (4, 'Chargé de Recherche CNRS'),
@@ -70,7 +70,7 @@ INSERT INTO Scientifique (id_scientifique, grade) VALUES
 (14, 'Directeur de Recherche CNRS');
 
 -- Insertion dans Doctorant
-INSERT INTO Doctorant (id_doc, date_debut_these, date_soutenance) VALUES
+INSERT INTO doctorant (id_doc, date_debut_these, date_soutenance) VALUES
 (3, '2015-10-01', '2019-12-15'),
 (8, '2016-09-01', '2020-06-30'),
 (11, '2018-09-01', '2022-11-25'),
@@ -78,7 +78,7 @@ INSERT INTO Doctorant (id_doc, date_debut_these, date_soutenance) VALUES
 (15, '2020-09-01', NULL);
 
 -- Insertion dans Enseignant_chercheur
-INSERT INTO Enseignant_chercheur (id_ec, echelon, id_etablissement) VALUES
+INSERT INTO enseignant_chercheur (id_ec, echelon, id_etablissement) VALUES
 (1, 'Classe normale - Échelon 6', 1),
 (2, 'Première classe - Échelon 3', 2),
 (6, 'Première classe - Échelon 2', 1),
@@ -87,14 +87,14 @@ INSERT INTO Enseignant_chercheur (id_ec, echelon, id_etablissement) VALUES
 (12, 'Classe normale - Échelon 4', 2);
 
 -- Insertion dans Chercheur
-INSERT INTO Chercheur (id_chercheur) VALUES
+INSERT INTO chercheur (id_chercheur) VALUES
 (4),
 (5),
 (9),
 (14);
 
 -- Insertion dans Partenaire
-INSERT INTO Partenaire (nom, pays) VALUES
+INSERT INTO partenaire (nom, pays) VALUES
 ('Airbus Defence and Space', 'France'),
 ('Thales Alenia Space', 'France'),
 ('Centre National d''Études Spatiales', 'France'),
@@ -104,7 +104,7 @@ INSERT INTO Partenaire (nom, pays) VALUES
 ('Huawei Technologies', 'Chine');
 
 -- Insertion dans Projets_LAAS
-INSERT INTO Projets_LAAS (titre, acronyme, annee_debut, duree, cout_global, budget, id_porteur) VALUES
+INSERT INTO projets_laas (titre, acronyme, annee_debut, duree, cout_global, budget, id_porteur) VALUES
 ('Autonomous Navigation Systems for Space Exploration', 'ANSSE', 2020, 4, 1500000.00, 450000.00, 2),
 ('Quantum Computing for Cryptography', 'QCC', 2021, 3, 800000.00, 250000.00, 5),
 ('Machine Learning for Medical Imaging', 'MLMI', 2019, 5, 2000000.00, 600000.00, 6),
@@ -114,7 +114,7 @@ INSERT INTO Projets_LAAS (titre, acronyme, annee_debut, duree, cout_global, budg
 ('Artificial Intelligence for Climate Modeling', 'AICM', 2023, 4, 1800000.00, 550000.00, 14);
 
 -- Insertion dans Lab_externe
-INSERT INTO Lab_externe (nom, pays) VALUES
+INSERT INTO lab_externe (nom, pays) VALUES
 ('Massachusetts Institute of Technology - CSAIL', 'États-Unis'),
 ('ETH Zurich - Computer Science Department', 'Suisse'),
 ('University of Oxford - Department of Computer Science', 'Royaume-Uni'),
@@ -123,7 +123,7 @@ INSERT INTO Lab_externe (nom, pays) VALUES
 ('University of Tokyo - Graduate School of Information Science', 'Japon');
 
 -- Insertion dans Auteur_externe
-INSERT INTO Auteur_externe (nom, prenom, adresse_mail, id_l_externe) VALUES
+INSERT INTO auteur_externe (nom, prenom, adresse_mail, id_l_externe) VALUES
 ('Smith', 'John', 'j.smith@csail.mit.edu', 1),
 ('Johnson', 'Emily', 'e.johnson@csail.mit.edu', 1),
 ('Müller', 'Hans', 'h.mueller@ethz.ch', 2),
@@ -138,7 +138,7 @@ INSERT INTO Auteur_externe (nom, prenom, adresse_mail, id_l_externe) VALUES
 ('Sato', 'Hiro', 'h.sato@is.s.u-tokyo.ac.jp', 6);
 
 -- Insertion dans Publication
-INSERT INTO Publication (titre, annee, nom_de_conference, classe, nb_pages) VALUES
+INSERT INTO publication (titre, annee, nom_de_conference, classe, nb_pages) VALUES
 ('Advanced Algorithms for Autonomous Navigation in Unknown Environments', 2021, 'IEEE International Conference on Robotics and Automation', 'A', 8),
 ('Quantum Error Correction Codes for Practical Applications', 2022, 'ACM Symposium on Theory of Computing', 'A', 12),
 ('Deep Learning Approaches for Brain Tumor Detection', 2020, 'Medical Image Computing and Computer Assisted Intervention', 'A', 10),
@@ -155,7 +155,7 @@ INSERT INTO Publication (titre, annee, nom_de_conference, classe, nb_pages) VALU
 -- ============================================================================
 
 -- Insertion dans ParticipationPersoJPO
-INSERT INTO ParticipationPersoJPO (id_participant, id_jpo) VALUES
+INSERT INTO participation_perso_jpo (id_participant, id_jpo) VALUES
 (1, 1),
 (2, 1),
 (4, 1),
@@ -170,14 +170,14 @@ INSERT INTO ParticipationPersoJPO (id_participant, id_jpo) VALUES
 (12, 5);
 
 -- Insertion dans PresidentCongres
-INSERT INTO PresidentCongres (id_scientifique, id_congres) VALUES
+INSERT INTO president_congres (id_scientifique, id_congres) VALUES
 (2, 2),
 (5, 2),
 (6, 4),
 (10, 4);
 
 -- Insertion dans ParticipationAEPubli
-INSERT INTO ParticipationAEPubli (id_publication, id_a_externe) VALUES
+INSERT INTO participation_ae_publi (id_publication, id_a_externe) VALUES
 (1, 1),
 (1, 7),
 (2, 3),
@@ -196,7 +196,7 @@ INSERT INTO ParticipationAEPubli (id_publication, id_a_externe) VALUES
 (10, 10);
 
 -- Insertion dans ParticipationPersonelPubli
-INSERT INTO ParticipationPersonelPubli (id_publication, id_personnel) VALUES
+INSERT INTO participation_personel_publi (id_publication, id_personnel) VALUES
 (1, 2),
 (1, 3),
 (2, 5),
@@ -218,7 +218,7 @@ INSERT INTO ParticipationPersonelPubli (id_publication, id_personnel) VALUES
 (10, 4);
 
 -- Insertion dans Encadrer
-INSERT INTO Encadrer (id_scientifique, id_doc) VALUES
+INSERT INTO encadrer (id_scientifique, id_doc) VALUES
 (1, 3),
 (2, 3),
 (2, 8),
@@ -231,7 +231,7 @@ INSERT INTO Encadrer (id_scientifique, id_doc) VALUES
 (14, 15);
 
 -- Insertion dans ParticipationProjetLAAS
-INSERT INTO ParticipationProjetLAAS (id_participant, id_projet) VALUES
+INSERT INTO participation_projet_laas (id_participant, id_projet) VALUES
 (2, 1),
 (1, 1),
 (4, 1),
@@ -252,7 +252,7 @@ INSERT INTO ParticipationProjetLAAS (id_participant, id_projet) VALUES
 (9, 7);
 
 -- Insertion dans SponsoringProjet
-INSERT INTO SponsoringProjet (id_sponsor, id_projet) VALUES
+INSERT INTO sponsoring_projet (id_sponsor, id_projet) VALUES
 (1, 1),
 (3, 1),
 (2, 2),
@@ -275,47 +275,47 @@ COMMIT;
 -- ============================================================================
 
 -- Compte du nombre de lignes insérées dans chaque table
-SELECT 'Personnel' AS table_name, COUNT(*) AS nb_lignes FROM Personnel
+SELECT 'Personnel' AS table_name, COUNT(*) AS nb_lignes FROM personnel
 UNION ALL
-SELECT 'Etablissement', COUNT(*) FROM Etablissement
+SELECT 'Etablissement', COUNT(*) FROM etablissement
 UNION ALL
-SELECT 'Evenement', COUNT(*) FROM Evenement
+SELECT 'Evenement', COUNT(*) FROM evenement
 UNION ALL
 SELECT 'Journee_Portes_Ouvertes', COUNT(*) FROM Journee_Portes_Ouvertes
 UNION ALL
-SELECT 'Congres', COUNT(*) FROM Congres
+SELECT 'Congres', COUNT(*) FROM congres
 UNION ALL
-SELECT 'Scientifique', COUNT(*) FROM Scientifique
+SELECT 'Scientifique', COUNT(*) FROM scientifique
 UNION ALL
-SELECT 'Doctorant', COUNT(*) FROM Doctorant
+SELECT 'Doctorant', COUNT(*) FROM doctorant
 UNION ALL
-SELECT 'Enseignant_chercheur', COUNT(*) FROM Enseignant_chercheur
+SELECT 'Enseignant_chercheur', COUNT(*) FROM enseignant_chercheur
 UNION ALL
-SELECT 'Chercheur', COUNT(*) FROM Chercheur
+SELECT 'Chercheur', COUNT(*) FROM chercheur
 UNION ALL
-SELECT 'Partenaire', COUNT(*) FROM Partenaire
+SELECT 'Partenaire', COUNT(*) FROM partenaire
 UNION ALL
-SELECT 'Projets_LAAS', COUNT(*) FROM Projets_LAAS
+SELECT 'Projets_LAAS', COUNT(*) FROM projets_LAAS
 UNION ALL
-SELECT 'Lab_externe', COUNT(*) FROM Lab_externe
+SELECT 'Lab_externe', COUNT(*) FROM lab_externe
 UNION ALL
-SELECT 'Auteur_externe', COUNT(*) FROM Auteur_externe
+SELECT 'Auteur_externe', COUNT(*) FROM auteur_externe
 UNION ALL
-SELECT 'Publication', COUNT(*) FROM Publication
+SELECT 'Publication', COUNT(*) FROM publication
 UNION ALL
-SELECT 'ParticipationPersoJPO', COUNT(*) FROM ParticipationPersoJPO
+SELECT 'ParticipationPersoJPO', COUNT(*) FROM participation_perso_jpo
 UNION ALL
-SELECT 'PresidentCongres', COUNT(*) FROM PresidentCongres
+SELECT 'PresidentCongres', COUNT(*) FROM president_congres
 UNION ALL
-SELECT 'ParticipationAEPubli', COUNT(*) FROM ParticipationAEPubli
+SELECT 'ParticipationAEPubli', COUNT(*) FROM participation_ae_publi
 UNION ALL
-SELECT 'ParticipationPersonelPubli', COUNT(*) FROM ParticipationPersonelPubli
+SELECT 'ParticipationPersonelPubli', COUNT(*) FROM participation_personel_publi
 UNION ALL
 SELECT 'Encadrer', COUNT(*) FROM Encadrer
 UNION ALL
-SELECT 'ParticipationProjetLAAS', COUNT(*) FROM ParticipationProjetLAAS
+SELECT 'ParticipationProjetLAAS', COUNT(*) FROM participation_projet_LAAS
 UNION ALL
-SELECT 'SponsoringProjet', COUNT(*) FROM SponsoringProjet;
+SELECT 'SponsoringProjet', COUNT(*) FROM sponsoring_projet;
 
 -- ============================================================================
 -- FIN DU SCRIPT D'INSERTION
