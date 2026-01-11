@@ -1,5 +1,8 @@
 DROP VIEW IF EXISTS publication_pas_que_A;
 DROP VIEW IF EXISTS publication_par_pays;
+DROP VIEW IF EXISTS Collaborateurs_internes_S001;
+DROP VIEW IF EXISTS Collaborateurs_externes_S001;
+
  --1. Le nom et le grade des encadrants du doctorant dont l’identifiant est "d001".
 SELECT p.nom, s.grade
 FROM Encadrer e

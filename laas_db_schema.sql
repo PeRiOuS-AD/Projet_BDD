@@ -4,27 +4,27 @@
 -- ============================================================================
 
 -- Suppression des tables existantes (dans l'ordre inverse des dépendances)
-DROP TABLE IF EXISTS SponsoringProjet CASCADE;
-DROP TABLE IF EXISTS ParticipationProjetLAAS CASCADE;
-DROP TABLE IF EXISTS Encadrer CASCADE;
-DROP TABLE IF EXISTS ParticipationPersonelPubli CASCADE;
-DROP TABLE IF EXISTS ParticipationAEPubli CASCADE;
-DROP TABLE IF EXISTS PresidentCongres CASCADE;
-DROP TABLE IF EXISTS ParticipationPersoJPO CASCADE;
-DROP TABLE IF EXISTS Auteur_externe CASCADE;
-DROP TABLE IF EXISTS Lab_externe CASCADE;
-DROP TABLE IF EXISTS Publication CASCADE;
-DROP TABLE IF EXISTS Chercheur CASCADE;
-DROP TABLE IF EXISTS Enseignant_chercheur CASCADE;
-DROP TABLE IF EXISTS Projets_LAAS CASCADE;
-DROP TABLE IF EXISTS Partenaire CASCADE;
-DROP TABLE IF EXISTS Scientifique CASCADE;
-DROP TABLE IF EXISTS Doctorant CASCADE;
-DROP TABLE IF EXISTS Congres CASCADE;
-DROP TABLE IF EXISTS Journee_Portes_Ouvertes CASCADE;
-DROP TABLE IF EXISTS Evenement CASCADE;
-DROP TABLE IF EXISTS Etablissement CASCADE;
-DROP TABLE IF EXISTS Personnel CASCADE;
+DROP TABLE IF EXISTS sponsoring_projet CASCADE;
+DROP TABLE IF EXISTS participation_projet_laas CASCADE;
+DROP TABLE IF EXISTS encadrer CASCADE;
+DROP TABLE IF EXISTS participation_personel_publi CASCADE;
+DROP TABLE IF EXISTS participation_ae_publi CASCADE;
+DROP TABLE IF EXISTS president_congres CASCADE;
+DROP TABLE IF EXISTS participation_perso_jpo CASCADE;
+DROP TABLE IF EXISTS auteur_externe CASCADE;
+DROP TABLE IF EXISTS lab_externe CASCADE;
+DROP TABLE IF EXISTS publication CASCADE;
+DROP TABLE IF EXISTS chercheur CASCADE;
+DROP TABLE IF EXISTS enseignant_chercheur CASCADE;
+DROP TABLE IF EXISTS projets_laas CASCADE;
+DROP TABLE IF EXISTS partenaire CASCADE;
+DROP TABLE IF EXISTS scientifique CASCADE;
+DROP TABLE IF EXISTS doctorant CASCADE;
+DROP TABLE IF EXISTS congres CASCADE;
+DROP TABLE IF EXISTS journee_portes_ouvertes CASCADE;
+DROP TABLE IF EXISTS evenement CASCADE;
+DROP TABLE IF EXISTS etablissement CASCADE;
+DROP TABLE IF EXISTS personnel CASCADE;
 
 -- ============================================================================
 -- TABLES PRINCIPALES
