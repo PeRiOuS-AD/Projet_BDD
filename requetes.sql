@@ -1,38 +1,50 @@
-DROP VIEW publication_pas_que_A;
-DROP VIEW publication_par_pays;
+DROP VIEW IF EXISTS publication_pas_que_A;
+DROP VIEW IF EXISTS publication_par_pays;
  --1. Le nom et le grade des encadrants du doctorant dont l’identifiant est "d001".
-SELECT nom, grade 
-FROM scientifique 
-JOIN personnel  ON p.id_personnel = s.id_scientifique 
-WHERE id_scientifique IN 
-	(SELECT id_scientifique 
-	FROM encadrer 
-	WHERE id_doc = '3');
+SELECT p.nom, s.grade
+FROM Encadrer e
+INNER JOIN scientifique s ON e.id_scientifique = s.id_scientifique
+INNER JOIN personnel   p ON s.id_scientifique = p.id_personnel
+WHERE e.id_doc = 'd001';
 -- --2. Le nom et le pays des auteurs collaborateurs (auteurs externes) du chercheur "Jean Azi" de 2016 à 2020.
-SELECT id_a_externe, auteur_externe.nom, prenom, pays 
-FROM auteur_externe 
-JOIN lab_externe ON lab_externe.id_l_externe = auteur_externe.id_l_externe 
-WHERE id_a_externe IN 
-(SELECT id_a_externe 
-FROM participation_ae_publi 
-WHERE id_publication IN 
-(SELECT id_publication 
-FROM participation_personel_publi 
-WHERE id_publication IN 
-(SELECT id_personnel FROM personnel WHERE nom = 'Moreau') 
-AND 
-id_publication IN 
-(SELECT id_publication 
-FROM publication 
-WHERE publication.annee BETWEEN 2016 and 2021)));
+SELECT DISTINCT ae.nom, le.pays
+FROM Personnel p
+INNER JOIN scientifique s ON p.id_personnel= s.id_scientifique
+INNER JOIN participation_personel_publi ppp ON p.id_personnel   = ppp.id_personnel
+INNER JOIN publication pub ON ppp.id_publication = pub.id_publication
+INNER JOIN participation_ae_publi pae ON pub.id_publication = pae.id_publication
+INNER JOIN auteur_externe ae ON pae.id_a_externe = ae.id_a_externe
+INNER JOIN lab_externe le ON ae.id_l_externe = le.id_l_externe
+WHERE p.nom = 'Azi' AND p.prenom = 'Jean' AND pub.annee BETWEEN 2016 AND 2020;
+
 -- --3. Le nombre de collaborateurs total du chercheur d’identifiant "S001".
-SELECT COUNT(*) FROM auteur_externe
-WHERE id_a_externe IN
-(SELECT id_a_externe FROM participation_ae_publi
-WHERE id_publication IN
-(SELECT id_publication FROM participation_personel_publi
-WHERE id_personnel = '4' and
-id_personnel IN (SELECT id_chercheur FROM chercheur)));
+--On commence déjà par:
+--3.1/faire sortir tous les collaborteur de table "personnels" à "S001" 
+
+CREATE VIEW  Collaborateurs_internes_S001 AS
+SELECT DISTINCT p2.id_personnel AS id_collaborateur_interne
+FROM participation_personel_publi p2
+WHERE p2.id_publication IN (
+    SELECT id_publication
+    FROM participation_personel_publi
+    WHERE id_personnel = 'S001'
+)
+AND p2.id_personnel <> 'S001';
+
+--3.2/faire sortir tous les collaborteur de table "auteurs externes" à "S001" 
+CREATE VIEW Collaborateurs_externes_S001 AS
+SELECT DISTINCT
+    pae.id_a_externe AS id_collaborateur_externe
+FROM participation_personel_publi p1
+JOIN participation_ae_publi pae
+  ON p1.id_publication = pae.id_publication
+WHERE p1.id_personnel = 'S001';
+--3.3/finalement on applique un union aux deux view préparés:
+SELECT COUNT(*) AS nb_collaborateurs
+FROM (SELECT id_collaborateur_interne AS id_collaborateur
+FROM Collaborateurs_internes_S001
+UNION SELECT id_collaborateur_externe AS id_collaborateur
+FROM Collaborateurs_externes_S001) AS TousCollaborateurs_externes_internes;
 
 -- --4. Le nombre de pays avec lesquels le LAAS a collaboré dans le cadre de publications de rang A (i.e. le nombre d’articles publiés dans des conférences de classe A).
 SELECT COUNT(DISTINCT(pays)) FROM lab_externe WHERE id_l_externe IN 
