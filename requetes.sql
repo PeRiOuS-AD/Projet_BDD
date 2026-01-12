@@ -14,6 +14,7 @@ WHERE e.id_doc = '1';
  \echo '--Q2--'
 SELECT DISTINCT ae.nom, le.pays
 FROM Personnel p
+INNER JOIN chercheur c ON p.id_personnel=c.id_chercheur
 INNER JOIN scientifique s ON p.id_personnel= s.id_scientifique
 INNER JOIN participation_personel_publi ppp ON p.id_personnel   = ppp.id_personnel
 INNER JOIN publication pub ON ppp.id_publication = pub.id_publication
@@ -28,9 +29,10 @@ WHERE p.nom = 'Azi' AND p.prenom = 'Jean' AND pub.annee BETWEEN 2016 AND 2020;
 --3.1/faire sortir tous les collaborteur de table "personnels" à "S001" 
 
 CREATE VIEW  Collaborateurs_internes_S001 AS
-SELECT DISTINCT p2.id_personnel AS id_collaborateur_interne
-FROM participation_personel_publi p2
-WHERE p2.id_publication IN (
+SELECT DISTINCT p.id_personnel AS id_collaborateur_interne
+FROM participation_personel_publi p
+INNER JOIN chercheur c ON p.id_personnel=c.id_chercheur
+WHERE p.id_publication IN (
     SELECT id_publication
     FROM participation_personel_publi
     WHERE id_personnel = '1'
@@ -41,10 +43,11 @@ AND p2.id_personnel <> '1';
 CREATE VIEW Collaborateurs_externes_S001 AS
 SELECT DISTINCT
     pae.id_a_externe AS id_collaborateur_externe
-FROM participation_personel_publi p1
-JOIN participation_ae_publi pae
-  ON p1.id_publication = pae.id_publication
-WHERE p1.id_personnel = '1';
+FROM participation_personel_publi p
+INNER JOIN chercheur c ON c.id_chercheur=p.id_personnel
+INNER JOIN participation_ae_publi pae
+  ON p.id_publication = pae.id_publication
+WHERE p.id_personnel = '1';
 --3.3/finalement on applique un union aux deux view préparés:
 SELECT COUNT(*) AS nb_collaborateurs
 FROM (SELECT id_collaborateur_interne AS id_collaborateur
