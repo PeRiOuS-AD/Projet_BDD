@@ -17,7 +17,7 @@ INSERT INTO personnel (nom, prenom, date_de_naissance, adresse, date_recrutement
 ('Dupont', 'Marie', '1985-03-15', '12 Rue de la République, 31000 Toulouse', '2010-09-01'),
 ('Martin', 'Jean', '1978-07-22', '45 Avenue Jean Jaurès, 31400 Toulouse', '2005-01-15'),
 ('Dubois', 'Sophie', '1990-11-30', '8 Boulevard Carnot, 31000 Toulouse', '2015-09-01'),
-('Bernard', 'Pierre', '1982-05-18', '23 Rue Alsace Lorraine, 31000 Toulouse', '2008-03-01'),
+('Azi', 'Jean', '1982-05-18', '23 Rue Alsace Lorraine, 31000 Toulouse', '2008-03-01'),
 ('Petit', 'Claire', '1988-09-12', '67 Allée Jean Jaurès, 31000 Toulouse', '2012-09-01'),
 ('Moreau', 'Luc', '1975-02-28', '34 Rue de Metz, 31000 Toulouse', '2000-09-01'),
 ('Simon', 'Isabelle', '1983-12-05', '56 Avenue de Lyon, 31500 Toulouse', '2009-09-01'),

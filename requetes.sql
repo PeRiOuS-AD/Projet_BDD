@@ -8,7 +8,7 @@ SELECT p.nom, s.grade
 FROM Encadrer e
 INNER JOIN scientifique s ON e.id_scientifique = s.id_scientifique
 INNER JOIN personnel   p ON s.id_scientifique = p.id_personnel
-WHERE e.id_doc = '01';
+WHERE e.id_doc = '1';
 -- --2. Le nom et le pays des auteurs collaborateurs (auteurs externes) du chercheur "Jean Azi" de 2016 à 2020.
 SELECT DISTINCT ae.nom, le.pays
 FROM Personnel p
@@ -30,9 +30,9 @@ FROM participation_personel_publi p2
 WHERE p2.id_publication IN (
     SELECT id_publication
     FROM participation_personel_publi
-    WHERE id_personnel = '01'
+    WHERE id_personnel = '1'
 )
-AND p2.id_personnel <> '01';
+AND p2.id_personnel <> '1';
 
 --3.2/faire sortir tous les collaborteur de table "auteurs externes" à "S001" 
 CREATE VIEW Collaborateurs_externes_S001 AS
@@ -41,7 +41,7 @@ SELECT DISTINCT
 FROM participation_personel_publi p1
 JOIN participation_ae_publi pae
   ON p1.id_publication = pae.id_publication
-WHERE p1.id_personnel = '01';
+WHERE p1.id_personnel = '1';
 --3.3/finalement on applique un union aux deux view préparés:
 SELECT COUNT(*) AS nb_collaborateurs
 FROM (SELECT id_collaborateur_interne AS id_collaborateur
@@ -141,7 +141,7 @@ INNER JOIN personnel P ON s.id_scientifique = p.id_personnel
 INNER JOIN encadrer e ON s.id_scientifique = e.id_scientifique
 GROUP BY s.id_scientifique, p.nom, p.prenom
 HAVING COUNT(DISTINCT e.id_doc) = (
-    SELECT COUNT(*) FROM doctorant   -- Nombre total de doctorants dans la base
+    SELECT COUNT(*) FROM doctorant   -- ça détermine le nombre total de doctorants dans la base
 );
 
 -- 14. Le nombre de publications du laboratoire par année.
