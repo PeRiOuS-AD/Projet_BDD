@@ -4,12 +4,14 @@ DROP VIEW IF EXISTS Collaborateurs_internes_S001;
 DROP VIEW IF EXISTS Collaborateurs_externes_S001;
 
  --1. Le nom et le grade des encadrants du doctorant dont l’identifiant est "d001".
+ \echo '--Q1--'
 SELECT p.nom, s.grade
 FROM Encadrer e
 INNER JOIN scientifique s ON e.id_scientifique = s.id_scientifique
 INNER JOIN personnel   p ON s.id_scientifique = p.id_personnel
 WHERE e.id_doc = '1';
 -- --2. Le nom et le pays des auteurs collaborateurs (auteurs externes) du chercheur "Jean Azi" de 2016 à 2020.
+ \echo '--Q2--'
 SELECT DISTINCT ae.nom, le.pays
 FROM Personnel p
 INNER JOIN scientifique s ON p.id_personnel= s.id_scientifique
@@ -21,6 +23,7 @@ INNER JOIN lab_externe le ON ae.id_l_externe = le.id_l_externe
 WHERE p.nom = 'Azi' AND p.prenom = 'Jean' AND pub.annee BETWEEN 2016 AND 2020;
 
 -- --3. Le nombre de collaborateurs total du chercheur d’identifiant "S001".
+ \echo '--Q3--'
 --On commence déjà par:
 --3.1/faire sortir tous les collaborteur de table "personnels" à "S001" 
 
@@ -50,6 +53,7 @@ UNION SELECT id_collaborateur_externe AS id_collaborateur
 FROM Collaborateurs_externes_S001) AS TousCollaborateurs_externes_internes;
 
 -- --4. Le nombre de pays avec lesquels le LAAS a collaboré dans le cadre de publications de rang A (i.e. le nombre d’articles publiés dans des conférences de classe A).
+ \echo '--Q4--'
 SELECT COUNT(DISTINCT(pays)) FROM lab_externe WHERE id_l_externe IN 
 	(SELECT id_l_externe FROM auteur_externe WHERE id_a_externe IN 
 		(SELECT id_a_externe FROM participation_ae_publi WHERE id_publication IN 
@@ -59,22 +63,26 @@ SELECT COUNT(DISTINCT(pays)) FROM lab_externe WHERE id_l_externe IN
 				(SELECT id_chercheur FROM chercheur))));
 
 -- --5. Pour les doctorants, on souhaiterait récupérer le nombre de leurs publications. On veut retourner l’identifiant de chaque doctorant accompagné du nombre de ses publications.
+ \echo '--Q5--'
 SELECT id_personnel, count(id_personnel) FROM participation_personel_publi
 GROUP by id_personnel
 HAVING id_personnel IN
 (SELECT id_doc FROM doctorant);
 -- --6. Le nombre de doctorants du laboratoire ayant soutenu
+ \echo '--Q6--'
 SELECT COUNT(*) AS nb_doc_ayant_soutenu
 FROM doctorant
 WHERE date_soutenance IS NOT NULL;
 
 -- 7. Le nom et le prénom des chercheurs qui n’ont jamais encadré.
+ \echo '--Q7--'
 SELECT p.nom, p.prenom
 FROM personnel AS p, scientifique AS s
 WHERE p.id_personnel = s.id_scientifique
 AND s.id_scientifique NOT IN (SELECT id_scientifique FROM Encadrer);
 
 -- 8. Le nom et le prénom des chercheurs qui n’ont jamais publié, ni encadré.
+ \echo '--Q8--'
 SELECT DISTINCT p.nom, p.prenom
 FROM personnel AS p, scientifique AS s
 WHERE p.id_personnel = s.id_scientifique
@@ -83,6 +91,7 @@ AND s.id_scientifique NOT IN (SELECT id_scientifique FROM encadrer);
 
 -- 9. Le nom et prénom des chercheurs qui encadrent mais n’ont pas de doctorants ayant déjà
 -- soutenu.
+ \echo '--Q9--'
 SELECT DISTINCT p.nom, p.prenom
 FROM personnel AS p
 JOIN scientifique AS s ON p.id_personnel = s.id_scientifique
@@ -95,6 +104,7 @@ WHERE s.id_scientifique NOT IN (
 );
 
 -- 10. L’identifiant, nom et prénom des doctorants qui ont un seul encadrant.
+ \echo '--Q10--'
 SELECT d.id_doc, p.nom, p.prenom
 FROM doctorant AS d
 INNER JOIN personnel AS p ON d.id_doc = p.id_personnel
@@ -105,7 +115,7 @@ WHERE 1 = (
 );
 -- 11. Les chercheurs qui ont plus de 4 doctorants en cours. Pour chaque chercheur, on veut afficher
 -- son identifiant, son nom, son prenom, et son nombre de doctorants.
-
+ \echo '--Q11--'
 SELECT p.id_personnel, p.nom, p.prenom, COUNT(e.id_doc) AS nb_doctorants
 FROM personnel p
 INNER JOIN scientifique s ON p.id_personnel = s.id_scientifique
@@ -117,7 +127,7 @@ GROUP BY p.id_personnel, p.nom, p.prenom
 HAVING COUNT(e.id_doc) > 4;
 
 -- 12. L’identifiant des chercheurs qui n’ont publié que dans des conférences de classe A.
-
+ \echo '--Q12--'
 CREATE VIEW publication_pas_que_A AS
 SELECT ppp.id_personnel
 FROM participation_personel_publi ppp
@@ -131,7 +141,7 @@ INNER JOIN scientifique s ON pp.id_personnel = s.id_scientifique
 WHERE pub.classe = 'A' AND pp.id_personnel NOT IN (SELECT id_personnel FROM publication_pas_que_A);
 
 -- 13. Nom, prénom et identifiant des chercheurs qui ont encadré tous les doctorants.
-
+ \echo '--Q13--'
 SELECT 
     s.id_scientifique, 
     p.nom, 
@@ -145,21 +155,21 @@ HAVING COUNT(DISTINCT e.id_doc) = (
 );
 
 -- 14. Le nombre de publications du laboratoire par année.
-
+ \echo '--Q14--'
 SELECT annee, COUNT(id_publication) AS nb_pub
 FROM publication
 GROUP BY annee
 ORDER BY annee ;
 
 -- 15. Le nombre d’enseignants chercheurs par établissement d’enseignement.
-
+ \echo '--Q15--'
 SELECT et.nom, COUNT(ec.id_ec) AS nb_enseignants_chercheurs
 FROM etablissement et
 INNER JOIN enseignant_chercheur ec ON et.id_etablissement = ec.id_etablissement
 GROUP BY et.id_etablissement, et.nom;
 
 --Q16:Les pays avec lequel le laboratoire a le plus de publications
-
+ \echo '--Q16--'
 CREATE VIEW publication_par_pays AS
 SELECT l.pays,COUNT(p.id_publication) AS nb_pubs
 FROM publication p
@@ -173,8 +183,8 @@ FROM publication_par_pays
 WHERE nb_pubs >= (SELECT MAX(nb_pubs) FROM publication_par_pays);
 
 --17. Les scientifiques qui ont un seul projet.
-SELECT *
-FROM Scientifique s
+ \echo '--Q17--'
+SELECT * FROM Scientifique s
 WHERE s.id_scientifique IN (
     SELECT id_participant 
     FROM participation_projet_laas 
@@ -183,8 +193,8 @@ WHERE s.id_scientifique IN (
 );
 
 --18. Les scientifiques qui ont participé à tous les projets.
-SELECT *
-FROM scientifique s
+ \echo '--Q18--'
+SELECT * FROM scientifique s
 WHERE s.id_scientifique IN (
     SELECT r1.id_participant
     FROM participation_projet_LAAS r1
@@ -201,8 +211,8 @@ WHERE s.id_scientifique IN (
 );
 
 --19. Les établissements d’enseignements ayant plus de 50 enseignants-chercheurs appartenant au LAAS.
-SELECT *
-FROM etablissement e
+ \echo '--Q19--'
+SELECT * FROM etablissement e
 WHERE e.id_etablissement IN (
     SELECT ec.id_etablissement
     FROM enseignant_chercheur ec
@@ -216,6 +226,7 @@ WHERE e.id_etablissement IN (
 );
 
 --20. Les scientifiques qui ont le plus de projets.
+ \echo '--Q20--'
 SELECT *
 FROM scientifique s
 WHERE (SELECT COUNT(DISTINCT id_projet) 
@@ -231,7 +242,7 @@ WHERE (SELECT COUNT(DISTINCT id_projet)
 
 
 --21. Les pays qui sont impliqués dans tous les projets.
-
+ \echo '--Q21--'
 SELECT DISTINCT pt.pays
 FROM Partenaire pt
 WHERE NOT EXISTS (
